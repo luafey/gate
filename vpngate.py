@@ -232,7 +232,6 @@ def parse_mirror_json(data):
 _PROTO_TCP_RE = re.compile(r"^proto\s+(tcp|tcp4|tcp6)\b", re.M)
 _REMOTE_RE = re.compile(r"^remote\s+\S+\s+(\d+)", re.M)
 
-
 def to_sstp_nodes(rows):
     """把原始行转成 SSTP 节点: 解码 OpenVPN 配置, 仅保留 proto tcp + remote 端口。
     host 统一为 <short>.opengw.net 形式; 返回去重前的节点列表。"""
@@ -409,7 +408,6 @@ def build_outputs(results, raw_count, sstp_count, source):
 
 CHAIN_URL = os.environ.get("CHAIN_URL", "https://luafey.github.io/gate/chains.txt")
 
-
 def build_chains_text(data):
     """生成 edgetunnel 链式代理清单: 按国家分组, 每国编号固定, 住宅优先, 延迟升序。
     每行 = 「名字 + $sstp://vpn:vpn@host:port」, 名字不变, 指令每 60 分钟自动换。"""
@@ -466,7 +464,6 @@ EDGE_HOSTS = [
 ]
 
 NODES_URL = os.environ.get("NODES_URL", "https://luafey.github.io/gate/nodes.txt")
-
 
 def build_nodes_text(data):
     """生成可直接粘贴到 edgetunnel 后台「自定义优选IP」框的清单。
