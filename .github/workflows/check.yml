@@ -35,8 +35,10 @@ jobs:
       - name: Get VPN Gate nodes + check via Cloudflare Worker + build page
         run: python vpngate.py
         env:
-          # 已部署的检测 Worker (不要改动: 检测统一走这里)
+          # 已部署的检测 Worker 域名
           CHECK_WORKER: ${{ secrets.CHECK_DOMAIN }}
+          # 优选IP或域名：优先读 Variables，若没有则读 Secrets
+          EDGE_HOSTS: ${{ vars.EDGE_HOSTS || secrets.EDGE_HOSTS }}
           CHECK_CONCURRENCY: "32"
           CHECK_TIMEOUT: "30"
 
