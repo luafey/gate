@@ -39,9 +39,6 @@ jobs:
           CHECK_WORKER: ${{ secrets.CHECK_DOMAIN }}
           CHECK_CONCURRENCY: "32"
           CHECK_TIMEOUT: "30"
-           # 从 Secrets 读取凭据（需在仓库 Settings -> Secrets 中配置）
-          EDT_UUID: ${{ secrets.EDT_UUID }}
-          EDT_DOMAIN: ${{ secrets.EDT_DOMAIN }}
 
       - name: Ensure GitHub Pages is enabled (one-time auto setup)
         run: |
