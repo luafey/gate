@@ -456,9 +456,9 @@ def build_chains_text(data):
 # 可通过环境变量 EDGE_HOSTS 覆盖 (逗号分隔)
 EDGE_HOSTS = [
     h.strip()
-    for h in os.environ.get(
-        "EDGE_HOSTS",
-        "43.165.191.60:443,172.64.79.95:443",
+    for h in (
+        os.environ.get("EDGE_HOSTS", "").strip()
+        or "43.165.191.60:443,172.64.79.95:443"
     ).split(",")
     if h.strip()
 ]
