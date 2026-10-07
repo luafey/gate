@@ -471,7 +471,7 @@ def build_nodes_text(data):
     countries = data["countries"]
     # 入口: 默认用 7 个实测可用优选域名循环分配; 可用 HOSTS_ENTRY 覆盖(逗号分隔)
     _entry = os.environ.get("HOSTS_ENTRY", "").strip()
-    edge = [e.strip() for e in _entry.split(",") if e.strip()] or EDGE_HOSTS or [f"{EDT_DOMAIN}:443"]
+    edge = [e.strip() for e in _entry.split(",") if e.strip()] or EDGE_HOSTS
     lines = [
         "# edgetunnel「自定义优选IP」清单 (整段复制, 追加到后台现有内容后面)",
         f"# 自动更新: {data['generated_at']} (每 60 分钟重新检测)",
