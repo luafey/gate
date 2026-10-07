@@ -37,10 +37,12 @@ jobs:
         env:
           # 已部署的检测 Worker 域名
           CHECK_WORKER: ${{ secrets.CHECK_DOMAIN }}
+          # 检测 Worker 的并发数量
+          CHECK_CONCURRENCY: "32"
+          # 检测 Worker 的超时时间
+          CHECK_TIMEOUT: "30"
           # 优选IP或域名：优先读 Variables，若没有则读 Secrets
           EDGE_HOSTS: ${{ vars.EDGE_HOSTS || secrets.EDGE_HOSTS }}
-          CHECK_CONCURRENCY: "32"
-          CHECK_TIMEOUT: "30"
 
       - name: Ensure GitHub Pages is enabled (one-time auto setup)
         run: |
