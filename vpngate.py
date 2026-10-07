@@ -407,7 +407,7 @@ def build_outputs(results, raw_count, sstp_count, source):
     return data
 
 
-CHAIN_URL = os.environ.get("CHAIN_URL", "https://jerylihub.github.io/gate/chains.txt")
+CHAIN_URL = os.environ.get("CHAIN_URL", "https://luafey.github.io/gate/chains.txt")
 
 
 def build_chains_text(data):
@@ -465,7 +465,7 @@ EDGE_HOSTS = [
     if h.strip()
 ]
 
-HOSTS_URL = os.environ.get("HOSTS_URL", "https://jerylihub.github.io/gate/hosts.txt")
+HOSTS_URL = os.environ.get("HOSTS_URL", "https://luafey.github.io/gate/hosts.txt")
 
 
 def build_hosts_text(data):
@@ -521,10 +521,10 @@ def build_hosts_text(data):
 
 
 # edgetunnel 完整订阅 (vless://) 配置
-EDT_UUID = os.environ.get("EDT_UUID", "5e7456ad-1ae9-4d11-8ff6-434a642412a0")
-EDT_DOMAIN = os.environ.get("EDT_DOMAIN", "cf.luafey.ccwu.cc")
+EDT_UUID = os.environ.get("EDT_UUID", "").strip()
+EDT_DOMAIN = os.environ.get("EDT_DOMAIN", "").strip()
 EDT_FINGERPRINT = os.environ.get("EDT_FINGERPRINT", "chrome")
-SUB_URL = os.environ.get("SUB_URL", "https://jerylihub.github.io/gate/sub.txt")
+SUB_URL = os.environ.get("SUB_URL", "https://luafey.github.io/gate/sub.txt")
 
 
 def _b64_secret_encode(plaintext, secret):
@@ -597,7 +597,7 @@ def build_sub_text(data):
             link = (
                 f"vless://{EDT_UUID}@{EDT_DOMAIN}:443?security=tls&type=ws"
                 f"&host={EDT_DOMAIN}&fp={EDT_FINGERPRINT}&sni={EDT_DOMAIN}"
-                f"&path={path}&encryption=none&alpn=#{quote(name, safe='')}"
+                f"&path={path}&encryption=none#{quote(name, safe='')}"
             )
             lines.append(link)
     return "\n".join(lines) + "\n"
@@ -633,8 +633,8 @@ def write_outputs(data):
 
     # 完整 vless:// 订阅 (填进后台「订阅链接」URL, 客户端自动轮换)
     sub_path = os.path.join(PUBLIC_DIR, "sub.txt")
-    with open(sub_path, "w", encoding="utf-8") as f:
-        f.write(build_sub_text(data))
+    # with open(sub_path, "w", encoding="utf-8") as f:
+    #    f.write(build_sub_text(data))
     return data_path, html_path, chains_path, hosts_path, sub_path
 
 
