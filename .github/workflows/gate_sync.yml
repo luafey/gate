@@ -1,0 +1,36 @@
+name:  Gate 节点检测与同步
+
+on:
+  schedule:
+    # 定时检测: 默认每 30 分钟一次
+    - cron: "*/30 * * * *"
+  # 支持在 GitHub 网页上随时手动点击【Run workflow】触发测试
+  workflow_dispatch:
+
+# 防冲突并发锁：避免短时间内多次触发导致冲突
+concurrency:
+  group: gate-sync
+  cancel-in-progress: false
+
+jobs:
+  gate-sync-workers:
+    name: 节点检测与同步
+    runs-on: ubuntu-latest
+    steps:
+      - name: 检出代码
+        uses: actions/checkout@v7
+
+      - name: 安装 Python
+        uses: actions/setup-python@v7
+        with:
+          python-version: "3.11"
+          cache: "pip"
+
+      - name: 安装依赖
+        run: pip install -r requirements.txt
+
+      - name: 运行脚本
+        run: python gate_runner.py
+        env:
+          GATE_URL: ${{ secrets.CF_GATE_URL }}
+          GATE_PASSWORD: ${{ secrets.CF_GATE_PASSWORD }}
