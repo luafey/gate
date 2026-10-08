@@ -30,7 +30,7 @@ jobs:
         run: pip install -r requirements.txt
 
       - name: 运行脚本
-        run: python gate_runner.py
+        run: python gate_sync.py
         env:
           GATE_URL: ${{ secrets.CF_GATE_URL }}
           GATE_PASSWORD: ${{ secrets.CF_GATE_PASSWORD }}
