@@ -34,3 +34,5 @@ jobs:
         env:
           GATE_URL: ${{ secrets.CF_GATE_URL }}
           GATE_PASSWORD: ${{ secrets.CF_GATE_PASSWORD }}
+          BATCH_SIZE: 35
+          MAX_RETRIES: 3
