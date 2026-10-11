@@ -1,4 +1,4 @@
-name: VPN Gate Node Check
+name: Gate Node Check
 
 on:
   # 定时检测: 默认每 30 分钟一次。改成每 60 分钟: cron: "0 * * * *"
@@ -32,7 +32,7 @@ jobs:
       - name: Install dependencies
         run: pip install -r requirements.txt
 
-      - name: Get VPN Gate nodes + check via Cloudflare Worker + build page
+      - name: Get Gate nodes + check via Cloudflare Worker + build page
         run: python vpngate.py
         env:
           # 已部署的检测 Worker 域名
