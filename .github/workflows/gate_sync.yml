@@ -6,6 +6,30 @@ on:
     - cron: "*/30 * * * *"
   # 支持在 GitHub 网页上随时手动点击【Run workflow】触发测试
   workflow_dispatch:
+    inputs:
+      check_mode:
+        description: "连通性检测模式"
+        required: true
+        default: "tcp"
+        type: choice
+        options:
+          - tcp
+          - sstp
+      fetch_country:
+        description: "同步地区代码 (ALL 为全部地区，或输入 JP, US 等)"
+        required: true
+        default: "ALL"
+        type: string
+      diff_mode:
+        description: "是否开启历史节点差量复测"
+        required: true
+        default: true
+        type: boolean
+      clean_dead:
+        description: "同步后是否清理失效节点"
+        required: true
+        default: false
+        type: boolean
 
 # 防冲突并发锁：避免短时间内多次触发导致冲突
 concurrency:
@@ -32,7 +56,14 @@ jobs:
       - name: 运行脚本
         run: python gate_sync.py
         env:
+          # 核心凭据 (读取 GitHub Secrets)
           GATE_URL: ${{ secrets.CF_GATE_URL }}
           GATE_PASSWORD: ${{ secrets.CF_GATE_PASSWORD }}
+          # 运行参数 (支持手动触发传参，定时触发自动使用默认值)
+          CHECK_MODE: ${{ inputs.check_mode || 'tcp' }}
+          FETCH_COUNTRY: ${{ inputs.fetch_country || 'ALL' }}
+          DIFF_MODE: ${{ inputs.diff_mode != null && inputs.diff_mode || 'true' }}
+          CLEAN_DEAD: ${{ inputs.clean_dead != null && inputs.clean_dead || 'false' }}
           BATCH_SIZE: 35
+          CONCURRENCY: 2
           MAX_RETRIES: 3
